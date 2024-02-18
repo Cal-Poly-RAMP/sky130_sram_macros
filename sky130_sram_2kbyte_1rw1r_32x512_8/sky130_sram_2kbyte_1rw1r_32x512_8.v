@@ -20,8 +20,8 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   parameter ADDR_WIDTH = 9 ;
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
   // FIXME: This delay is arbitrary.
-  parameter DELAY = 3 ;
-  parameter VERBOSE = 1 ; //Set to 0 to only display warnings
+  parameter DELAY = 0 ;
+  parameter VERBOSE = 0 ; //Set to 0 to only display warnings
   parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
 
 `ifdef USE_POWER_PINS
@@ -103,7 +103,7 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
     if (!csb0_reg && web0_reg)
     begin
       if (DELAY == 0)dout0 <= mem[addr0_reg];
-      // else dout0 <= #(DELAY) mem[addr0_reg];
+      else dout0 <= #(DELAY) mem[addr0_reg];
     end
   end
 
@@ -114,7 +114,7 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
     if (!csb1_reg)
     begin
       if (DELAY == 0)  dout1 <= mem[addr1_reg];
-      // else dout1 <= #(DELAY) mem[addr1_reg];
+      else dout1 <= #(DELAY) mem[addr1_reg];
     end
   end
 
